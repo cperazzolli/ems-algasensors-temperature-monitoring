@@ -17,7 +17,7 @@ public class SensorMonitoringController {
     private final SensorMonitoringRepository sensorMonitoringRepository;
 
     @GetMapping
-    public SensorMonitoringOutput getMonitoring(@PathVariable TSID sensorId) {
+    public SensorMonitoringOutput getMonitoring(@PathVariable("sensorId") TSID sensorId) {
         SensorMonitoring sensorMonitoring = getSensorMonitoring(sensorId);
 
         return SensorMonitoringOutput.builder()
@@ -30,7 +30,7 @@ public class SensorMonitoringController {
 
     @PutMapping("/enable")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void enable(@PathVariable TSID sensorId) {
+    public void enable(@PathVariable("sensorId") TSID sensorId) {
         SensorMonitoring monitoring = getSensorMonitoring(sensorId);
         monitoring.setEnabled(true);
         sensorMonitoringRepository.saveAndFlush(monitoring);
@@ -38,7 +38,7 @@ public class SensorMonitoringController {
 
     @DeleteMapping("/enable")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void disable(@PathVariable TSID sensorId) {
+    public void disable(@PathVariable("sensorId") TSID sensorId) {
         SensorMonitoring monitoring = getSensorMonitoring(sensorId);
         monitoring.setEnabled(false);
         sensorMonitoringRepository.saveAndFlush(monitoring);

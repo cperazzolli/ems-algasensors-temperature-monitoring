@@ -1,6 +1,5 @@
 package com.cperazzolli.algasensors.temperature.monitoring.api.model;
 
-import com.cperazzolli.algasensors.temperature.monitoring.domain.model.SensorId;
 import io.hypersistence.tsid.TSID;
 import lombok.Builder;
 import lombok.Data;
