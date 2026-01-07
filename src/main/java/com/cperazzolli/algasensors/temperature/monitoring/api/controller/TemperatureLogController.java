@@ -1,6 +1,6 @@
 package com.cperazzolli.algasensors.temperature.monitoring.api.controller;
 
-import com.cperazzolli.algasensors.temperature.monitoring.api.model.TemperatureLogOutput;
+import com.cperazzolli.algasensors.temperature.monitoring.api.model.TemperatureLogData;
 import com.cperazzolli.algasensors.temperature.monitoring.domain.model.SensorId;
 import com.cperazzolli.algasensors.temperature.monitoring.domain.model.TemperatureLog;
 import com.cperazzolli.algasensors.temperature.monitoring.domain.repository.TemperatureLogRepository;
@@ -21,11 +21,11 @@ public class TemperatureLogController {
     private final TemperatureLogRepository temperatureLogRepository;
 
     @GetMapping
-    public Page<TemperatureLogOutput> search(@PathVariable TSID sensorId,Pageable page) {
+    public Page<TemperatureLogData> search(@PathVariable TSID sensorId, Pageable page) {
        Page<TemperatureLog> temperatureLogs = temperatureLogRepository.findAllBySensorId(
                page, new SensorId(sensorId));
        return temperatureLogs.map(temperatureLog ->
-                 TemperatureLogOutput.builder()
+                 TemperatureLogData.builder()
                          .id(temperatureLog.getId().getValue())
                          .value(temperatureLog.getValue())
                          .sensorId(temperatureLog.getSensorId().getValue())
