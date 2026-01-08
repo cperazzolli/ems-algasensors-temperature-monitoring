@@ -2,6 +2,7 @@ package com.cperazzolli.algasensors.temperature.monitoring.infrastructure.rabbit
 
 import com.cperazzolli.algasensors.temperature.monitoring.api.model.TemperatureLogData;
 
+import com.cperazzolli.algasensors.temperature.monitoring.domain.service.TemperatureMonitoringService;
 import io.hypersistence.tsid.TSID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,14 +21,12 @@ import static com.cperazzolli.algasensors.temperature.monitoring.infrastructure.
 @Component
 public class RabbitmqListener {
 
-    @RabbitListener(queues = QUEUE)
-    public void handle(@Payload TemperatureLogData temperatureLogData,
-                       @Headers Map<String, Object> headers) throws InterruptedException {
-        TSID sensorId = temperatureLogData.getSensorId();
-        Double value = temperatureLogData.getValue();
+    private final TemperatureMonitoringService temperatureMonitoringService;
 
-        log.info("Temperature update: sensorId {} temp {}", sensorId, value);
-        log.info("Headers: {}", headers);
-        Thread.sleep(Duration.ofSeconds(2));
+    @RabbitListener(queues = QUEUE)
+    public void handle(@Payload TemperatureLogData temperatureLogData) throws InterruptedException {
+
+        temperatureMonitoringService.processingTemperatureReading(temperatureLogData);
+        Thread.sleep(Duration.ofSeconds(5));
     }
 }
